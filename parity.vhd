@@ -3,6 +3,7 @@ Warning: This code misses the portion of
 ```Vous allez devoir ajuster votre code en
 fonction du nombre d’inverseurs dans la chaine et de la polarité de la DEL D2 qui est en tirage (pull-up
 en anglais)
+Check this : https://session.genie.usherbrooke.ca/e2025/s4ei/app_1/fiches_techniques/thermo12_v00_sch.pdf
 ```
 */
 library ieee;
