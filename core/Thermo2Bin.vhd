@@ -38,27 +38,9 @@ entity Thermo2Bin is
 end Thermo2Bin;
 
 architecture Behavioral of Thermo2Bin is
-
-    COMPONENT Thermo2BinL1
-        Port ( X : in STD_LOGIC_VECTOR (2 downto 0);
-               S : out STD_LOGIC_VECTOR (1 downto 0);
-               Ok : out STD_LOGIC);
-    end COMPONENT;
-
-    COMPONENT Thermo2BinL2
-    Port ( X : in STD_LOGIC_VECTOR (1 downto 0);
-           Y : in STD_LOGIC_VECTOR (1 downto 0);
-           V1 : in STD_LOGIC;
-           V2 : in STD_LOGIC;
-           S : out STD_LOGIC_VECTOR (2 downto 0);
-           Ok : out STD_LOGIC);
-    end COMPONENT;
     
     COMPONENT Checker
-    Port ( V1 : in STD_LOGIC;
-           P1 : in STD_LOGIC_VECTOR (2 downto 0);
-           V2 : in STD_LOGIC;
-           P2 : in STD_LOGIC_VECTOR (2 downto 0);
+    Port ( ADCth : in STD_LOGIC_VECTOR (11 downto 0);
            Erreur : out STD_LOGIC);
     end COMPONENT;
     
@@ -68,76 +50,83 @@ architecture Behavioral of Thermo2Bin is
            Y3 : in STD_LOGIC_VECTOR (2 downto 0);
            S3 : out STD_LOGIC_VECTOR (2 downto 0);
            Co : out STD_LOGIC);
-    end COMPONENT;    
+    end COMPONENT;
     
-    signal intern_L1_0 : std_logic_vector(1 downto 0);
-    signal Ok_L1_0 : std_logic;
-    signal intern_L1_1 : std_logic_vector(1 downto 0);
-    signal Ok_L1_1 : std_logic;
-    signal intern_L1_2 : std_logic_vector(1 downto 0);
-    signal Ok_L1_2 : std_logic;
-    signal intern_L1_3 : std_logic_vector(1 downto 0);
-    signal Ok_L1_3 : std_logic;
+    COMPONENT Add2bits
+    Port ( Ci : in STD_LOGIC;
+           X2 : in STD_LOGIC_VECTOR (1 downto 0);
+           Y2 : in STD_LOGIC_VECTOR (1 downto 0);
+           S2 : out STD_LOGIC_VECTOR (1 downto 0);
+           Co : out STD_LOGIC);
+    end COMPONENT;
+    
+    COMPONENT Add1bitB
+    Port ( Ci : in STD_LOGIC;
+           X : in STD_LOGIC;
+           Y : in STD_LOGIC;
+           S : out STD_LOGIC;
+           Co : out STD_LOGIC);
+    end COMPONENT;
     
     signal intern_L2_0 : std_logic_vector(2 downto 0);
-    signal Ok_L2_0 : std_logic;
     signal intern_L2_1 : std_logic_vector(2 downto 0);
-    signal Ok_L2_1 : std_logic;
+    
+    signal intern_L1_0 : std_logic_vector(1 downto 0);
+    signal intern_L1_1 : std_logic_vector(1 downto 0);
+    signal intern_L1_2 : std_logic_vector(1 downto 0);
+    signal intern_L1_3 : std_logic_vector(1 downto 0);
         
 begin
 
-L1_0: Thermo2BinL1
+L1_0: Add1bitB
     PORT MAP (
-        X => ADCth(2 downto 0),
-        S => intern_L1_0,
-        Ok => Ok_L1_0
+        Ci => ADCth(0),
+        X => ADCth(1),
+        Y => ADCth(2),
+        S => intern_L1_0(0),
+        Co => intern_L1_0(1)
         );
-L1_1: Thermo2BinL1
+L1_1: Add1bitB
     PORT MAP (
-        X => ADCth(5 downto 3),
-        S => intern_L1_1,
-        Ok => Ok_L1_1
+        Ci => ADCth(3),
+        X => ADCth(4),
+        Y => ADCth(5),
+        S => intern_L1_1(0),
+        Co => intern_L1_1(1)
         );
-L1_2: Thermo2BinL1
+L1_2: Add1bitB
     PORT MAP (
-        X => ADCth(8 downto 6),
-        S => intern_L1_2,
-        Ok => Ok_L1_2
+        Ci => ADCth(6),
+        X => ADCth(7),
+        Y => ADCth(8),
+        S => intern_L1_2(0),
+        Co => intern_L1_2(1)
         );
-L1_3: Thermo2BinL1
+L1_3: Add1bitB
     PORT MAP (
-        X => ADCth(11 downto 9),
-        S => intern_L1_3,
-        Ok => Ok_L1_3
+        Ci => ADCth(9),
+        X => ADCth(10),
+        Y => ADCth(11),
+        S => intern_L1_3(0),
+        Co => intern_L1_3(1)
         );
         
-L2_0: Thermo2BinL2
+L2_0: Add2bits
     PORT MAP (
-       X => intern_L1_0,
-       Y => intern_L1_1,
-       V1 => Ok_L1_0,
-       V2 => Ok_L1_1,
-       S => intern_L2_0,
-       Ok => Ok_L2_0
+       Ci => '0',
+       X2 => intern_L1_0,
+       Y2 => intern_L1_1,
+       S2 => intern_L2_0(1 downto 0),
+       Co => intern_L2_0(2)
        );
-L2_1: Thermo2BinL2
+L2_1: Add2bits
     PORT MAP (
-       X => intern_L1_2,
-       Y => intern_L1_3,
-       V1 => Ok_L1_2,
-       V2 => Ok_L1_3,
-       S => intern_L2_1,
-       Ok => Ok_L2_1
+       Ci => '0',
+       X2 => intern_L1_2,
+       Y2 => intern_L1_3,
+       S2 => intern_L2_1(1 downto 0),
+       Co => intern_L2_1(2)
        );
-       
-CHECK: Checker
-    PORT MAP (
-        V1 => Ok_L2_0,
-        P1 => intern_L2_0,
-        V2 => Ok_L2_1,
-        P2 => intern_L2_1,
-        Erreur => erreur
-        );
        
 ADD: Add3bits
     PORT MAP (
@@ -147,5 +136,11 @@ ADD: Add3bits
        S3 => ADCbin(2 downto 0),
        Co => ADCbin(3)
        );
+
+CHECK: Checker
+    PORT MAP (
+        ADCth => ADCth,
+        Erreur => erreur
+        );
 
 end Behavioral;

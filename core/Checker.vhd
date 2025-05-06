@@ -32,24 +32,62 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity Checker is
-    Port ( V1 : in STD_LOGIC;
-           P1 : in STD_LOGIC_VECTOR (2 downto 0);
-           V2 : in STD_LOGIC;
-           P2 : in STD_LOGIC_VECTOR (2 downto 0);
+    Port ( ADCth : in STD_LOGIC_VECTOR (11 downto 0);
            Erreur : out STD_LOGIC);
 end Checker;
 
 architecture Behavioral of Checker is
-
-    signal intern1 : std_logic_vector(1 downto 0);
-    signal intern2 : std_logic_vector(1 downto 0);
+    
+    signal A0A1 : std_logic;
+    signal A0A2 : std_logic;
+    signal A0A3 : std_logic;
+    signal A0A4 : std_logic;
+    signal A0A5 : std_logic;
+    signal A0A6 : std_logic;
+    signal A0A7 : std_logic;
+    signal A0A8 : std_logic;
+    signal A0A9 : std_logic;
+    signal A0A10 : std_logic;
+    signal A0A11 : std_logic;
+    
+    signal VA1 : std_logic;
+    signal VA2 : std_logic;
+    signal VA3 : std_logic;
+    signal VA4 : std_logic;
+    signal VA5 : std_logic;
+    signal VA6 : std_logic;
+    signal VA7 : std_logic;
+    signal VA8 : std_logic;
+    signal VA9 : std_logic;
+    signal VA10 : std_logic;
+    signal VA11 : std_logic;
 
 begin
 
-    intern1(0) <= P1(2) AND P1(1) AND P1(0);
-    intern1(1) <= NOT(P2(2)) AND NOT(P2(1)) AND NOT(P2(0));
-    intern2(0) <= V1 AND V2;
-    intern2(1) <= intern1(1) OR intern1(0);
-    Erreur <= NOT(intern2(1) AND intern2(0));
+    A0A1 <= ADCth(0) AND ADCth(1);
+    A0A2 <= ADCth(1) AND ADCth(2);
+    A0A3 <= ADCth(2) AND ADCth(3);
+    A0A4 <= ADCth(3) AND ADCth(4);
+    A0A5 <= ADCth(4) AND ADCth(5);
+    A0A6 <= ADCth(5) AND ADCth(6);
+    A0A7 <= ADCth(6) AND ADCth(7);
+    A0A8 <= ADCth(7) AND ADCth(8);
+    A0A9 <= ADCth(8) AND ADCth(9);
+    A0A10 <= ADCth(9) AND ADCth(10);
+    A0A11 <= ADCth(10) AND ADCth(11);
+    
+    VA1 <= ADCth(1) AND NOT(A0A1);
+    VA2 <= ADCth(2) AND NOT(A0A2);
+    VA3 <= ADCth(3) AND NOT(A0A3);
+    VA4 <= ADCth(4) AND NOT(A0A4);
+    VA5 <= ADCth(5) AND NOT(A0A5);
+    VA6 <= ADCth(6) AND NOT(A0A6);
+    VA7 <= ADCth(7) AND NOT(A0A7);
+    VA8 <= ADCth(8) AND NOT(A0A8);
+    VA9 <= ADCth(9) AND NOT(A0A9);
+    VA10 <= ADCth(10) AND NOT(A0A10);
+    VA11 <= ADCth(11) AND NOT(A0A11);
+    
+    erreur <= VA1 OR VA2 OR VA3 OR VA4 OR VA5 OR VA6 OR VA7 OR VA8 OR VA9 OR VA10 OR VA11;
 
 end Behavioral;
