@@ -93,7 +93,7 @@ process (Entree)
          Code_signe <= "0001";
          Unites_s <= "0001";
       when others =>
-         Code_signe <= "1111";
+         Code_signe <= "1110";
          Unites_s <= "1111";
     end case;
   end process;

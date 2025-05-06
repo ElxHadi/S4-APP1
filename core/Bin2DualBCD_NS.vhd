@@ -93,7 +93,7 @@ process (Entree)
          Dizaines <= "0001";
          Unites_ns <= "0101";
       when others =>
-         Dizaines <= "1111";
+         Dizaines <= "1110";
          Unites_ns <= "1111";
     end case;
   end process;
