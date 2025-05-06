@@ -40,6 +40,6 @@ end Calculateur_parite;
 architecture Behavioral of Calculateur_parite is
 begin
 
-parity_bit <= (data_in(3) xor data_in(2) xor data_in(1) xor data_in(0)) xor parity_sel;
+parity_bit <= NOT((data_in(3) xor data_in(2) xor data_in(1) xor data_in(0)) xor parity_sel);
 
 end Behavioral;

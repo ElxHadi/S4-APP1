@@ -46,10 +46,10 @@ architecture Behavioral of Checker is
 
 begin
 
-    intern1(0) <= NOT(P1(2)) AND NOT(P1(1)) AND NOT(P1(0));
-    intern1(1) <= P2(2) AND P2(1) AND P2(0);
+    intern1(0) <= P1(2) AND P1(1) AND P1(0);
+    intern1(1) <= NOT(P2(2)) AND NOT(P2(1)) AND NOT(P2(0));
     intern2(0) <= V1 AND V2;
     intern2(1) <= intern1(1) OR intern1(0);
-    Erreur <= NOT(intern2(1) OR intern2(0));
+    Erreur <= NOT(intern2(1) AND intern2(0));
 
 end Behavioral;

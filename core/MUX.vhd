@@ -49,7 +49,7 @@ end entity;
 architecture Behavioral of MUX is
   constant E_code          : STD_LOGIC_VECTOR(3 downto 0) := "1110"; -- 'E'
   constant r_code          : STD_LOGIC_VECTOR(3 downto 0) := "1111"; -- 'r'
-  constant sign_minus_code : STD_LOGIC_VECTOR(3 downto 0) := "1010"; -- '-' not so sure ?
+  constant sign_minus_code : STD_LOGIC_VECTOR(3 downto 0) := "1101"; -- '-'
 begin
   process (erreur, s2, BTN, ADCbin, Dizaines, Unites_ns, Code_signe, Unites_s)
   begin
