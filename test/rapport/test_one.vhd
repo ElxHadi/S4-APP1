@@ -11,7 +11,7 @@ end tb_AppCombi_top;
 architecture sim of tb_AppCombi_top is
 
   -- Component under test
-  component AppCombi_top is
+  component AppCombi_top
     port (
       i_btn     : in  std_logic_vector(3 downto 0);
       i_sw      : in  std_logic_vector(3 downto 0);
@@ -68,9 +68,9 @@ begin
   begin
     while true loop
       sysclk <= '0';
-      wait for CLK_PERIOD/2;
+      wait for CLK_PERIOD;
       sysclk <= '1';
-      wait for CLK_PERIOD/2;
+      wait for CLK_PERIOD;
     end loop;
   end process clk_process;
 
@@ -87,7 +87,7 @@ begin
     wait for 200 ns;
 
     -- Assert expected 7-segment pattern
-    assert o_SSD = "1001111"  
+    assert o_SSD = "10011111"  
       report "TEST FAILED"
       severity error;
 
